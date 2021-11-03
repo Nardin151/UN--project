@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
 from collections import Counter
 import nltk
 import string
@@ -13,27 +19,27 @@ init_notebook_mode(connected=True)
 
 # load in the data.
 df_list = []
-cities = ['boston', 'chicago', 'la', 'montreal', 'ny', 'sf', 'toronto', 'vancouver']
+Interviewees = ['Adam', 'Heba', 'Nadine Elgendy', 'Salma Hatem', 'Sally', 'Adham Atef', 'Samah Sayed', 'Foad Bassem']
 
-for city in cities:
-    df_tmp = pd.read_pickle('data_scientist_{}.pkl'.format(city))
-    df_tmp['city'] = city
+for Interviewee in Interviewees:
+    df_tmp = pd.read_pickle('data_scientist_{}.pkl'.format(Interviewee))
+    df_tmp['Interviewee'] = Interviewee
     df_list.append(df_tmp)
 
 df = pd.concat(df_list).reset_index(drop=True)
 
-# make the city names nicer.
-msk = df['city'] == 'la'
-df.loc[msk, 'city'] = 'los angeles'
+# make the interviewees names nicer.
+msk = df['Interviewee'] == 'Adam'
+df.loc[msk, 'Interviewee'] = 'Adam Ahmed'
 
-msk = df['city'] == 'ny'
-df.loc[msk, 'city'] = 'new york'
+msk = df['Interviewee'] == 'Heba'
+df.loc[msk, 'Interviewee'] = 'Heba Serag'
 
-msk = df['city'] == 'sf'
-df.loc[msk, 'city'] = 'san francisco'
-# If it's the same job description in the same city, for the same job title, we consider it duplicate.
+msk = df['Interviewee'] == 'Sally'
+df.loc[msk, 'Interviewee'] = 'Sally Foad'
+# If it's the same job description for the same interviewee, for the same job title, we consider it duplicate.
 print(df.shape)
-df = df.drop_duplicates(subset=['job_description', 'city', 'job_title'])
+df = df.drop_duplicates(subset=['job_description', 'Interviewee', 'job_title'])
 print(df.shape)
 # got these keywords by looking at some examples and using existing knowledge.
 tool_keywords1 = ['python', 'pytorch', 'sql', 'mxnet', 'mlflow', 'einstein', 'theano', 'pyspark', 'solr', 'mahout',
@@ -128,7 +134,7 @@ tool_list = []
 skill_list = []
 degree_list = []
 
-msk = df['city'] != ''  # just in case you want to filter the data.
+msk = df['Interviewee'] != ''  # just in case you want to filter the data.
 
 num_postings = len(df[msk].index)
 for i in range(num_postings):
@@ -311,3 +317,4 @@ fig.add_trace(go.Bar(
 ))
 
 iplot(fig)
+
